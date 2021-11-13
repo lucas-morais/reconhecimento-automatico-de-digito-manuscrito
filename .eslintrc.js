@@ -11,7 +11,6 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    'prettier/prettier': ['error'],
     'max-len': [
       'error',
       {
