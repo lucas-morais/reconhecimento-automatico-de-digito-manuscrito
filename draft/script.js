@@ -1,19 +1,7 @@
 const canvas = document.querySelector('#canvas');
+const canvas2 = document.querySelector('#canvas2');
 function drawing() {
   const ctx = canvas.getContext('2d');
-  canvas.height = window.innerHeight;
-  canvas.width = window.innerWidth;
-  // ctx.strokeStyle = 'red';
-  // ctx.strokeRect(100, 100, 200, 500);
-  // ctx.strokeStyle = 'blue';
-  // ctx.strokeRect(200, 100, 200, 500);
-
-  // ctx.beginPath();
-  // ctx.moveTo(100, 100);
-  // ctx.lineTo(200, 100);
-  // ctx.lineTo(200, 150);
-  // ctx.closePath();
-  // ctx.stroke();
 
   let painting = false;
 
@@ -41,6 +29,42 @@ function drawing() {
   canvas.addEventListener('mousemove', draw);
 }
 
+function catchImage() {
+  const button = document.querySelector('#catch-button');
+  button.addEventListener('click', () => {
+    const imageData = canvas
+      .getContext('2d')
+      .getImageData(0, 0, canvas.width, canvas.height);
+    const imageTensor = tf.browser.fromPixels(imageData, 4);
+    const arrayImage = Array.from(imageData.data)
+      .filter((_arr, index) => (index + 1) % 4 === 0)
+      .map((arr) => Math.abs(255 - arr) / 255.0);
+    const len = imageTensor.shape[0];
+    const finalImageTensor = tf.tensor(arrayImage, [len, len]);
+    const resizedTensor = tf.image.resizeNearestNeighbor(
+      imageTensor,
+      [28, 28],
+      true
+    );
+    resizedTensor.dtype = 'int32';
+    console.log(resizedTensor);
+    console.log(imageTensor.shape);
+    console.log(arrayImage);
+    resizedTensor.print();
+    tf.browser.toPixels(resizedTensor, canvas2).then(() => {});
+  });
+}
+
+function clearCanvas() {
+  const button = document.querySelector('#clear-button');
+  button.addEventListener('click', () => {
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  });
+}
+
 window.onload = () => {
   drawing();
+  catchImage();
+  clearCanvas();
 };
