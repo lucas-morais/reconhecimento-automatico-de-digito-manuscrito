@@ -2,7 +2,7 @@
 const canvas = document.querySelector('#canvas');
 const button = document.querySelector('#predict-button');
 
-async function imageToTensor() {
+async function catchImage() {
   const imageDimension = 28;
   button.addEventListener('click', async () => {
     const imageData = canvas
@@ -14,26 +14,30 @@ async function imageToTensor() {
       [28, 28],
       true
     );
+
     const tensorData = await resizedTensor.data();
+
+    imageTensor.dispose();
+    resizedTensor.dispose();
+
     const arrayImage = tensorData
       .filter((_arr, index) => (index + 1) % 4 === 0)
       .map((arr) => Math.abs(255 - arr) / 255.0);
-    const finalImageTensor = tf.tensor(
-      arrayImage,
-      [imageDimension, imageDimension],
-      'float32'
-    );
-    finalImageTensor.print();
-    console.log(finalImageTensor);
 
-    // resizedTensor.print();
+    return arrayImage;
   });
 }
 
-function makePrediction() {}
+function makePrediction(arrayImage) {
+  // const finalImageTensor = tf.tensor(
+  //   arrayImage,
+  //   [imageDimension, imageDimension],
+  //   'float32'
+  // );
+}
 
 async function predictNumber() {
-  await imageToTensor();
+  const arrayImage = await catchImage();
   makePrediction();
 }
 
