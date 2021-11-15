@@ -8,7 +8,7 @@ function drawOnCanvas() {
 
   function draw(event) {
     if (!painting) return;
-    ctx.lineWidth = 10;
+    ctx.lineWidth = 20;
     ctx.lineCap = 'round';
     ctx.lineTo(event.clientX - canvasLeft, event.clientY - canvasTop);
     ctx.stroke();

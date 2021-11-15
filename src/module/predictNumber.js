@@ -2,9 +2,23 @@
 const canvas = document.querySelector('#canvas');
 const button = document.querySelector('#predict-button');
 
+function makePrediction(arrayImage) {
+  const imageDimensions = [1, 28, 28, 1];
+  const imageTensor = tf.tensor(arrayImage, imageDimensions, 'float32');
+  tf.ready().then(() => {
+    const modelPath = '../model/model-tfjs/model.json';
+    tf.loadLayersModel(modelPath).then((model) => {
+      const result = model.predict(imageTensor);
+      result.print();
+      const { indices } = tf.topk(result);
+
+      console.log(indices.arraySync()[0]);
+    });
+  });
+}
+
 async function catchImage() {
-  const imageDimension = 28;
-  button.addEventListener('click', async () => {
+  button.addEventListener('click', () => {
     const imageData = canvas
       .getContext('2d')
       .getImageData(0, 0, canvas.width, canvas.height);
@@ -14,31 +28,22 @@ async function catchImage() {
       [28, 28],
       true
     );
+    let tensorData;
+    resizedTensor.data().then((data) => {
+      tensorData = data;
+      imageTensor.dispose();
+      resizedTensor.dispose();
 
-    const tensorData = await resizedTensor.data();
-
-    imageTensor.dispose();
-    resizedTensor.dispose();
-
-    const arrayImage = tensorData
-      .filter((_arr, index) => (index + 1) % 4 === 0)
-      .map((arr) => Math.abs(255 - arr) / 255.0);
-
-    return arrayImage;
+      const arrayImage = tensorData
+        .filter((_arr, index) => (index + 1) % 4 === 0)
+        .map((arr) => Math.abs(arr) / 255.0);
+      makePrediction(arrayImage);
+    });
   });
 }
 
-function makePrediction(arrayImage) {
-  // const finalImageTensor = tf.tensor(
-  //   arrayImage,
-  //   [imageDimension, imageDimension],
-  //   'float32'
-  // );
-}
-
 async function predictNumber() {
-  const arrayImage = await catchImage();
-  makePrediction();
+  catchImage();
 }
 
 export default predictNumber;
