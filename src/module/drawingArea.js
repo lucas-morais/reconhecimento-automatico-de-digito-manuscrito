@@ -2,17 +2,16 @@ const canvas = document.querySelector('#canvas');
 
 function drawOnCanvas() {
   const ctx = canvas.getContext('2d');
-  const canvasTop = canvas.offsetTop;
-  const canvasLeft = canvas.offsetLeft;
   let painting = false;
-
+  
   function draw(event) {
+    const { top, left } = canvas.getBoundingClientRect();
     if (!painting) return;
     ctx.lineWidth = 20;
     ctx.lineCap = 'round';
-    ctx.lineTo(event.clientX - canvasLeft, event.clientY - canvasTop);
+    ctx.lineTo(event.clientX - left, event.clientY - top);
     ctx.stroke();
-    ctx.moveTo(event.clientX - canvasLeft, event.clientY - canvasTop);
+    ctx.moveTo(event.clientX - left, event.clientY - top);
   }
 
   canvas.addEventListener('mousedown', (event) => {

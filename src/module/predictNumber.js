@@ -1,6 +1,18 @@
 /* eslint-disable no-undef */
 const canvas = document.querySelector('#canvas');
+const predictionCanvas = document.querySelector('#prediction');
 const button = document.querySelector('#predict-button');
+// const image = document.querySelector('#image');
+// const predictionCtx = predictionCanvas.getContext('2d');
+
+function drawPrediction(predictedNumber) {
+  predictionCanvas.innerHTML = '';
+  const predictionImage = document.createElement('img');
+  predictionImage.src = `./images/${predictedNumber}.jpg`;
+  predictionImage.height = 360;
+  predictionImage.width = 360;
+  predictionCanvas.appendChild(predictionImage)
+}
 
 function makePrediction(arrayImage) {
   const imageDimensions = [1, 28, 28, 1];
@@ -9,10 +21,10 @@ function makePrediction(arrayImage) {
     const modelPath = '../model/model-tfjs/model.json';
     tf.loadLayersModel(modelPath).then((model) => {
       const result = model.predict(imageTensor);
-      result.print();
       const { indices } = tf.topk(result);
-
-      console.log(indices.arraySync()[0]);
+      
+      const predictedNumber = indices.arraySync()[0];
+      drawPrediction(predictedNumber);
     });
   });
 }
@@ -43,7 +55,7 @@ async function catchImage() {
 }
 
 async function predictNumber() {
-  catchImage();
+  await catchImage();
 }
 
 export default predictNumber;

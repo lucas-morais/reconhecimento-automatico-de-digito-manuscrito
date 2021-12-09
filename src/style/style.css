@@ -32,10 +32,14 @@ main {
   flex-direction: column;
 }
 
-canvas {
+.canvas {
+  height: 400px;
+  width: 400px;
   border: 3px solid black;
   border-radius: 15px;
 }
 
-button {
+img {
+  display: block;
+  margin: auto;
 }
