@@ -18,7 +18,7 @@ function makePrediction(arrayImage) {
   const imageDimensions = [1, 28, 28, 1];
   const imageTensor = tf.tensor(arrayImage, imageDimensions, 'float32');
   tf.ready().then(() => {
-    const modelPath = '../model/model-tfjs/model.json';
+    const modelPath = './model/model-tfjs/model.json';
     tf.loadLayersModel(modelPath).then((model) => {
       const result = model.predict(imageTensor);
       const { indices } = tf.topk(result);
