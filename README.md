@@ -20,7 +20,10 @@ O treinamento do modelo de machine learning foi feito em linguagem python utiliz
 ## Predição
 A predição foi feita com o framework **TensorflowJs** na linguagem javascript. O original foi convertido em formato compatível com TensorfloJs.
 
-## Snipets
+## Aplicação
+A aplicação pode ser acessada <a href=https://lucas-morais.github.io/reconhecimento-automatico-de-digito-manuscrito/>aqui</a>
+
+## Snippets
 
 <img src="./gifs/cinco_pred.gif">
 <br>
