@@ -21,7 +21,7 @@ O treinamento do modelo de machine learning foi feito em linguagem python utiliz
 A predição foi feita com o framework **TensorflowJs** na linguagem javascript. O original foi convertido em formato compatível com TensorfloJs.
 
 ## Aplicação
-A aplicação pode ser acessada <a href=https://lucas-morais.github.io/reconhecimento-automatico-de-digito-manuscrito/>aqui</a>
+A aplicação pode ser acessada <a href=https://lucas-morais.github.io/reconhecimento-automatico-de-digito-manuscrito/ target="_blank">aqui</a>
 
 ## Snippets
 
